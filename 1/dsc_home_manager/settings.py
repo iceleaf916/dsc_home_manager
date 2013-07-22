@@ -13,17 +13,24 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+try:
+    from bae.core import const
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'EMYSPhBddlQQRZHJORwZ',                      # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': const.MYSQL_USER,
+            'PASSWORD': const.MYSQL_PASS,
+            'HOST': const.MYSQL_HOST,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': const.MYSQL_PORT,                      # Set to empty string for default.
+        }
     }
-}
+except:
+    try:
+        from local_settings import *
+    except:
+        pass
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -165,7 +172,3 @@ LANGUAGE_CHOICE = (
     ("zh_tw", "繁體中文"),
     )
 
-try:
-    from local_settings import *
-except:
-    pass
