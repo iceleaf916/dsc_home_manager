@@ -3,7 +3,7 @@
 
 from django.contrib import admin
 
-from models import (Album, Software, AlbumPublic)
+from models import (Album, Software, AlbumPublish)
 
 class SoftwareAdmin(admin.ModelAdmin):
     list_display = ('pkg_name', 'language', 'display_name', 'short_desc')
@@ -22,7 +22,7 @@ class AlbumAdmin(admin.ModelAdmin):
         return super(AlbumAdmin, self).formfield_for_manytomany(
             db_field, request=request, **kwargs)
 
-class AlbumPublicAdmin(admin.ModelAdmin):
+class AlbumPublishAdmin(admin.ModelAdmin):
     list_display = ('name', 'language', 'created', 'status')
     list_filter = ('language', )
     filter_horizontal = ('albums', )
@@ -30,10 +30,10 @@ class AlbumPublicAdmin(admin.ModelAdmin):
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == 'albums':
             kwargs['queryset'] = Album.objects.filter(language=request.language)
-        return super(AlbumPublicAdmin, self).formfield_for_manytomany(
+        return super(AlbumPublishAdmin, self).formfield_for_manytomany(
             db_field, request=request, **kwargs)
 
 admin.site.register(Software, SoftwareAdmin)
 admin.site.register(Album, AlbumAdmin)
-admin.site.register(AlbumPublic, AlbumPublicAdmin)
+admin.site.register(AlbumPublish, AlbumPublishAdmin)
 

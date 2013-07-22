@@ -39,7 +39,7 @@ class Album(models.Model):
         verbose_name = "推荐专辑"
         verbose_name_plural = "推荐专辑"
 
-class AlbumPublic(models.Model):
+class AlbumPublish(models.Model):
     STATUS_CHOICE = (
         (1, "编辑"),
         (2, "测试"),
