@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'dsc_home_manager.views.home', name='home'),
+    url(r'^$', 'dsc_home_manager.views.index', name='index'),
     # url(r'^dsc_home_manager/', include('dsc_home_manager.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

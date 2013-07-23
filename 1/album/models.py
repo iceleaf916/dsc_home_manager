@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from dsc_home_manager.settings import LANGUAGE_CHOICE
+from django.conf import settings
 
 ALBUM_COVER_PIC_PATH = "album_pictures/cover"
 ALBUM_SOFTWARE_PIC_PATH = "album_pictures/software"
 
 class Software(models.Model):
     pkg_name = models.CharField(max_length=255, verbose_name='包名')
-    language = models.CharField(max_length=25, choices=LANGUAGE_CHOICE, default='en_us', verbose_name="语言")
+    language = models.CharField(max_length=25, choices=settings.LANGUAGE_CHOICE, default='en_us', verbose_name="语言")
     display_name = models.CharField(max_length=255, verbose_name='显示名称')
     short_desc = models.CharField(max_length=2550, verbose_name='一句话描述')
     long_desc = models.TextField(max_length=2550, verbose_name='推荐简介')
@@ -24,7 +24,7 @@ class Software(models.Model):
         verbose_name_plural = "推荐软件"
 
 class Album(models.Model):
-    language = models.CharField(max_length=25, choices=LANGUAGE_CHOICE, default='en_us', verbose_name="语言")
+    language = models.CharField(max_length=25, choices=settings.LANGUAGE_CHOICE, default='en_us', verbose_name="语言")
     name = models.CharField(max_length=255, verbose_name="专辑名称")
     summary = models.TextField(max_length=2550, verbose_name="专辑简介")
     cover_pic = models.ImageField(upload_to=ALBUM_COVER_PIC_PATH, verbose_name="专辑封面", blank=True)
@@ -47,7 +47,7 @@ class AlbumPublish(models.Model):
         (3, "发布"),
         (4, "存档"),
         )
-    language = models.CharField(max_length=25, choices=LANGUAGE_CHOICE, default='en_us', verbose_name="语言")
+    language = models.CharField(max_length=25, choices=settings.LANGUAGE_CHOICE, default='en_us', verbose_name="语言")
     name = models.CharField(max_length=255, verbose_name="发布名称")
     status = models.IntegerField(choices=STATUS_CHOICE, default=1, verbose_name="状态")
     pub_datetime = models.DateTimeField(verbose_name="发布时间")
