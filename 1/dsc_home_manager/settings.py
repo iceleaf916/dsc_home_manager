@@ -171,8 +171,8 @@ LANGUAGE_CHOICE = (
     ("zh_cn", "简体中文"),
     ("zh_tw", "繁體中文"),
     )
-UPYUN_BUCKET = "game-center"
-UPYUN_ACCOUNT = "yekaisheng"
-UPYUN_PASSWORD = "yekaisheng"
-UPYUN_PREFIX = "home_data"
-STATICFILES_STORAGE = 'dsc_home_manager.storage.UpYunStorage'
+
+UPYUN_BUCKET_NAME = 'dsc-home-data'
+UPYUN_OPERATOR_NAME = 'yekaisheng'
+UPYUN_OPERATOR_PASSWORD = 'yekaisheng'
+DEFAULT_FILE_STORAGE = 'upyunstorage.backends.upyun.UpYunStorage'
