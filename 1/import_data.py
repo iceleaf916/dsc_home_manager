@@ -5,44 +5,41 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dsc_home_manager.settings")
 
 from deepin_utils.file import get_parent_dir
-from album.models import Software, Album
-import json
+from moudles.album.models import Software, Album, AlbumPublish
+from language.models import Language
 
-data_dir = os.path.join(get_parent_dir(__file__, 2), "deepin-software-center-service-private", "dsc-home-data", "input_data")
-album_dir = os.path.join(data_dir, "album")
-album_pic_dir = os.path.join(data_dir, "data", "home", "album_picture")
+def alter_language():
+    for s in Software.objects.all():
+        cur_lang = Language.objects.filter(lang_code = s.language)
+        if len(cur_lang) > 0:
+            s.language_code = cur_lang[0]
+            s.save()
 
-for a in Album.objects.all():
-    a.delete()
+    for s in Album.objects.all():
+        cur_lang = Language.objects.filter(lang_code = s.language)
+        if len(cur_lang) > 0:
+            s.language_code = cur_lang[0]
+            s.save()
+        print s.language_code
 
-for s in Software.objects.all():
-    s.delete()
+    for s in AlbumPublish.objects.all():
+        cur_lang = Language.objects.filter(lang_code = s.language)
+        if len(cur_lang) > 0:
+            s.language_code = cur_lang[0]
+            s.save()
+        print s.language_code
 
-for lang in os.listdir(data_dir):
-    if lang in ['zh_CN', 'zh_TW', 'en_US']:
-        js_file = os.path.join(album_dir, lang, "album_contents.json")
-        try:
-            with open(js_file) as fp:
-                contents = json.load(fp)
-        except:
-            print "Load js data failed: ", js_file
+def append_picture():
+    #for s in Software.objects.all():
+        #jpg_name = s.pkg_name + "_" + s.language_code.lang_code + ".jpg"
+        #s.software_pic.name = "album_pictures/software/" + jpg_name
+        #s.save()
+    for s in Album.objects.all():
+        pic_id = str((s.id-21) % 6)
+        pic_path = pic_id + "_" + s.language_code.lang_code + ".jpg"
+        s.cover_pic.name = "album_pictures/cover/" + pic_path
+        s.save()
 
-        for album in contents:
-            al = Album(
-                    language=lang.lower(),
-                    name=album['name'],
-                    summary=album['summary'],
-                    )
-            al.save()
-
-            for soft in album['contents']:
-                s = Software(
-                        pkg_name=soft['pkg_name'],
-                        language=lang.lower(),
-                        display_name=soft['pkg_name'],
-                        short_desc=soft['short_desc'],
-                        long_desc=soft['long_desc'],
-                        )
-                s.save()
-                al.softwares.add(s)
-            al.save()
+if __name__ == '__main__':
+    #alter_language()
+    append_picture()
